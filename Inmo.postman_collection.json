@@ -1,0 +1,490 @@
+{
+	"info": {
+		"_postman_id": "73174d16-73a5-4197-9e4d-c0133382d600",
+		"name": "Inmo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listas",
+			"item": [
+				{
+					"name": "Mis propiedades",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "access_token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTA5NjI1M30.xwMhw7igZIlvHERbaO5BTfigYSdASKi3I3vOr_iH2zQ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://inmocristobal.herokuapp.com/properties/mine",
+							"protocol": "https",
+							"host": [
+								"inmocristobal",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"properties",
+								"mine"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkOThmZDU0ZWE5MDAxNzExZmZkZiIsImlhdCI6MTU1MTA5NjIwN30.6tJFST2vsW2mNp8LK4hfBbBuqYDrrDKGqmZX3mE1JSA",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver favoritas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "access_token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTA5NjI1M30.xwMhw7igZIlvHERbaO5BTfigYSdASKi3I3vOr_iH2zQ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://inmocristobal.herokuapp.com/properties/fav",
+							"protocol": "https",
+							"host": [
+								"inmocristobal",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"properties",
+								"fav"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver propiedades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://inmocristobal.herokuapp.com/properties?access_token=masterKey",
+							"protocol": "https",
+							"host": [
+								"inmocristobal",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"properties"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "masterKey"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "cristobal1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "cristobal@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "cristobal@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://inmocristobal.herokuapp.com/auth",
+					"protocol": "https",
+					"host": [
+						"inmocristobal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registro",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "access_token",
+							"value": "masterKey",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "cristobal@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "cristobal",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://inmocristobal.herokuapp.com/users",
+					"protocol": "https",
+					"host": [
+						"inmocristobal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear categoria",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "access_token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTA5Mzk5MH0.EzCOq8SyrrVuhpFq1VAPJuR0CuzmHFgVBIB4UeVFoGI",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "vivienda",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://inmocristobal.herokuapp.com/categories",
+					"protocol": "https",
+					"host": [
+						"inmocristobal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear propiedad",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "access_token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTA5Mzk5MH0.EzCOq8SyrrVuhpFq1VAPJuR0CuzmHFgVBIB4UeVFoGI",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "PruebaPropiedad",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Descrip cion de la propiedad",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "100000",
+							"type": "text"
+						},
+						{
+							"key": "rooms",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "categoryId",
+							"value": "5c73d138d54ea9001711ffdd",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Direccion de la propiedad",
+							"type": "text"
+						},
+						{
+							"key": "zipcode",
+							"value": "zipcode de la propiedad",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "Sevilla",
+							"type": "text"
+						},
+						{
+							"key": "province",
+							"value": "Sevilla",
+							"type": "text"
+						},
+						{
+							"key": "loc",
+							"value": "Coria del rio",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://inmocristobal.herokuapp.com/properties",
+					"protocol": "https",
+					"host": [
+						"inmocristobal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"properties"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registro User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "access_token",
+							"value": "masterKey",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "user@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "user123",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "user",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://inmocristobal.herokuapp.com/users",
+					"protocol": "https",
+					"host": [
+						"inmocristobal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Añadir a favorita",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "access_token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTA5NjI1M30.xwMhw7igZIlvHERbaO5BTfigYSdASKi3I3vOr_iH2zQ",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://inmocristobal.herokuapp.com/properties/fav/:id",
+					"protocol": "https",
+					"host": [
+						"inmocristobal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"properties",
+						"fav",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "5c73d20cd54ea9001711ffde"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
