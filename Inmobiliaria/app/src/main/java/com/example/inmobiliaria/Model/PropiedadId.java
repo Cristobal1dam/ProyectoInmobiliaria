@@ -5,8 +5,7 @@ import android.support.annotation.RequiresApi;
 
 import java.util.Objects;
 
-public class Propiedad {
-
+public class PropiedadId {
     private String id;
     private String title;
     private String description;
@@ -18,9 +17,9 @@ public class Propiedad {
     private String city;
     private String province;
     private String loc;
-    private OwnerId ownerId;
+    private String ownerId;
 
-    public Propiedad(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, OwnerId ownerId) {
+    public PropiedadId(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, String ownerId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -123,11 +122,11 @@ public class Propiedad {
         this.loc = loc;
     }
 
-    public OwnerId getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(OwnerId ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -135,20 +134,20 @@ public class Propiedad {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Propiedad)) return false;
-        Propiedad propiedad = (Propiedad) o;
-        return price == propiedad.price &&
-                rooms == propiedad.rooms &&
-                Objects.equals(id, propiedad.id) &&
-                Objects.equals(title, propiedad.title) &&
-                Objects.equals(description, propiedad.description) &&
-                Objects.equals(categoryId, propiedad.categoryId) &&
-                Objects.equals(address, propiedad.address) &&
-                Objects.equals(zipcode, propiedad.zipcode) &&
-                Objects.equals(city, propiedad.city) &&
-                Objects.equals(province, propiedad.province) &&
-                Objects.equals(loc, propiedad.loc) &&
-                Objects.equals(ownerId, propiedad.ownerId);
+        if (!(o instanceof PropiedadId)) return false;
+        PropiedadId that = (PropiedadId) o;
+        return price == that.price &&
+                rooms == that.rooms &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(categoryId, that.categoryId) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(zipcode, that.zipcode) &&
+                Objects.equals(city, that.city) &&
+                Objects.equals(province, that.province) &&
+                Objects.equals(loc, that.loc) &&
+                Objects.equals(ownerId, that.ownerId);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -159,7 +158,7 @@ public class Propiedad {
 
     @Override
     public String toString() {
-        return "Propiedad{" +
+        return "PropiedadId{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -171,7 +170,7 @@ public class Propiedad {
                 ", city='" + city + '\'' +
                 ", province='" + province + '\'' +
                 ", loc='" + loc + '\'' +
-                ", ownerId=" + ownerId +
+                ", ownerId='" + ownerId + '\'' +
                 '}';
     }
 }

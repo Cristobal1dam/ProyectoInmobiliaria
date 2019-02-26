@@ -1,12 +1,9 @@
 package com.example.inmobiliaria.Fragments;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,42 +13,48 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.inmobiliaria.Adapters.MyPropiedadIdRecyclerViewAdapter;
 import com.example.inmobiliaria.Adapters.MyPropiedadRecyclerViewAdapter;
 import com.example.inmobiliaria.Generator.ServiceGenerator;
+import com.example.inmobiliaria.Generator.TipoAutenticacion;
 import com.example.inmobiliaria.Generator.UtilToken;
-import com.example.inmobiliaria.Generator.UtilUser;
 import com.example.inmobiliaria.Model.Photo;
 import com.example.inmobiliaria.Model.Propiedad;
 import com.example.inmobiliaria.Model.PropiedadFoto;
+import com.example.inmobiliaria.Model.PropiedadId;
+import com.example.inmobiliaria.Model.PropiedadIdFoto;
 import com.example.inmobiliaria.Model.ResponseContainer;
 import com.example.inmobiliaria.R;
 import com.example.inmobiliaria.Services.PhotoService;
 import com.example.inmobiliaria.Services.PropiedadService;
-import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class PropiedadFavoritasFragment extends Fragment {
 
-public class PropiedadFragment extends Fragment {
 
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private List<PropiedadFoto> propiedadListFoto;
-    private OnListFragmentInteractionListener mListener;
+    private List<PropiedadIdFoto> propiedadListFoto;
+    private PropiedadFragment.OnListFragmentInteractionListener mListener;
     private Context ctx;
-    MyPropiedadRecyclerViewAdapter adapter;
-   // private PropiedadViewModel mViewModel;
+    MyPropiedadIdRecyclerViewAdapter adapter;
+    // private PropiedadViewModel mViewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PropiedadFragment() {
+    public PropiedadFavoritasFragment() {
     }
 
     @Override
@@ -67,7 +70,7 @@ public class PropiedadFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
-           ctx = view.getContext();
+            ctx = view.getContext();
             final RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
@@ -77,24 +80,23 @@ public class PropiedadFragment extends Fragment {
 
 
             propiedadListFoto = new ArrayList<>();
-            UtilToken.setToken(ctx,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTE4MzI4N30.QahrrglNtqZ2Rcb5f1lrXjBchj_HKVjWCiqCDo6MVTg");
-            PropiedadService service = ServiceGenerator.createService(PropiedadService.class);
-            Call<ResponseContainer<PropiedadFoto>> call = service.getListPropiedades();
+            UtilToken.setToken(ctx,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTExMTA4OH0.xGJdOvVfT-1587vCTwPZaobIs-qjNHoXZfdf7QrzMI0");
+            PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(ctx), TipoAutenticacion.JWT);
+            Call<ResponseContainer<PropiedadIdFoto>> call = service.getListPropiedadesFavoritas();
 
-            call.enqueue(new Callback<ResponseContainer<PropiedadFoto>>() {
+            call.enqueue(new Callback<ResponseContainer<PropiedadIdFoto>>() {
 
                 @Override
-                public void onResponse(Call<ResponseContainer<PropiedadFoto>> call, Response<ResponseContainer<PropiedadFoto>> response) {
+                public void onResponse(Call<ResponseContainer<PropiedadIdFoto>> call, Response<ResponseContainer<PropiedadIdFoto>> response) {
                     if (response.code() != 200) {
                         Toast.makeText(getActivity(), "Error en petición", Toast.LENGTH_SHORT).show();
                     } else {
-                        List<Propiedad> propiedadList = new ArrayList<>();
+                        List<PropiedadIdFoto> propiedadList = new ArrayList<>();
                         propiedadListFoto = response.body().getRows();
 
 
 
-
-                        adapter = new MyPropiedadRecyclerViewAdapter(
+                        adapter = new MyPropiedadIdRecyclerViewAdapter(
                                 ctx,
                                 propiedadListFoto,
                                 mListener
@@ -104,7 +106,7 @@ public class PropiedadFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<ResponseContainer<PropiedadFoto>> call, Throwable t) {
+                public void onFailure(Call<ResponseContainer<PropiedadIdFoto>> call, Throwable t) {
                     Log.e("NetworkFailure", t.getMessage());
                     Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
                 }
@@ -112,7 +114,7 @@ public class PropiedadFragment extends Fragment {
 
             });
 
-           // lanzarViewModel(ctx);
+            // lanzarViewModel(ctx);
 
         }
         return view;
@@ -122,8 +124,8 @@ public class PropiedadFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof PropiedadFragment.OnListFragmentInteractionListener) {
+            mListener = (PropiedadFragment.OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -160,12 +162,12 @@ public class PropiedadFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(PropiedadFoto item);
     }
-/*
-    private List<PropiedadFoto> getListaFotos (List<Propiedad> listaProp){
+
+   /* private List<PropiedadIdFoto> getListaFotos (List<PropiedadId> listaProp){
         PhotoService service = ServiceGenerator.createService(PhotoService.class);
-        final List<PropiedadFoto> listaConFoto = new ArrayList<>();
-        for(Propiedad propiedad : listaProp) {
-            final PropiedadFoto propFoto = new PropiedadFoto();
+        final List<PropiedadIdFoto> listaConFoto = new ArrayList<>();
+        for(PropiedadId propiedad : listaProp) {
+            final PropiedadIdFoto propFoto = new PropiedadIdFoto();
             propFoto.setPropiedad(propiedad);
             Call<ResponseContainer<Photo>> call = service.getOnePhoto(propiedad.getId());
             call.enqueue(new Callback<ResponseContainer<Photo>>() {
@@ -202,4 +204,5 @@ public class PropiedadFragment extends Fragment {
         }
         return listaConFoto;
     }*/
+
 }

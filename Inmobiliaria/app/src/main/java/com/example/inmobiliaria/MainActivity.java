@@ -14,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inmobiliaria.Adapters.MyPropiedadRecyclerViewAdapter;
+import com.example.inmobiliaria.Fragments.MisPropiedadesFragment;
+import com.example.inmobiliaria.Fragments.PropiedadFavoritasFragment;
 import com.example.inmobiliaria.Fragments.PropiedadFragment;
 import com.example.inmobiliaria.Generator.ServiceGenerator;
 import com.example.inmobiliaria.Generator.TipoAutenticacion;
 import com.example.inmobiliaria.Generator.UtilToken;
 import com.example.inmobiliaria.Generator.UtilUser;
 import com.example.inmobiliaria.Model.Propiedad;
+import com.example.inmobiliaria.Model.PropiedadFoto;
 import com.example.inmobiliaria.Model.ResponseContainer;
 import com.example.inmobiliaria.Services.PropiedadService;
 import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
@@ -28,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements PropiedadFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements PropiedadFragment.OnListFragmentInteractionListener, PropiedadFavoritasFragment.OnListFragmentInteractionListener, MisPropiedadesFragment.OnListFragmentInteractionListener{
 
     private Fragment f;
 
@@ -63,24 +66,29 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
     };
 
     public boolean onOptionsItemSelected(MenuItem item) {
+        Fragment f = null;
 
         switch (item.getItemId()) {
             case R.id.action_misFavoritos:
-                listarFavoritos();
+                f = new PropiedadFavoritasFragment();
                 break;
             case R.id.action_misPropiedades:
-                listarMisPropiedades();
+                f = new MisPropiedadesFragment();
                 break;
 
 
         }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.contenedor, f)
+                .commit();
         return true;
     }
 
 
 
 
-        private void listarMisPropiedades() {
+      /*  private void listarMisPropiedades() {
 
         PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(MainActivity.this), TipoAutenticacion.JWT);
         Call<ResponseContainer<Propiedad>> call = service.getListMisPropiedades();
@@ -104,9 +112,9 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
                 }
 
         });
-    }
+    }*/
 
-    private void listarFavoritos() {
+  /*  private void listarFavoritos() {
 
         PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(MainActivity.this), TipoAutenticacion.JWT);
         Call<ResponseContainer<Propiedad>> call = service.getListPropiedadesFavoritas();
@@ -130,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
             }
 
         });
-    }
+    }*/
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -141,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UtilToken.setToken(MainActivity.this,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTE4MzI4N30.QahrrglNtqZ2Rcb5f1lrXjBchj_HKVjWCiqCDo6MVTg");
         setContentView(R.layout.activity_main);
 
         getSupportFragmentManager()
@@ -152,8 +161,10 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+
+
     @Override
-    public void onListFragmentInteraction(Propiedad item) {
+    public void onListFragmentInteraction(PropiedadFoto item) {
 
     }
 }

@@ -11,25 +11,25 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.inmobiliaria.Fragments.PropiedadFragment.OnListFragmentInteractionListener;
 import com.example.inmobiliaria.Model.Propiedad;
-import com.example.inmobiliaria.Model.PropiedadFoto;
+import com.example.inmobiliaria.Model.PropiedadId;
+import com.example.inmobiliaria.Model.PropiedadIdFoto;
 import com.example.inmobiliaria.R;
-
 
 import java.util.List;
 
 
-public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropiedadRecyclerViewAdapter.ViewHolder> {
+public class MyPropiedadIdRecyclerViewAdapter extends RecyclerView.Adapter<MyPropiedadIdRecyclerViewAdapter.ViewHolder> {
 
-    private List<PropiedadFoto> mValues;
+    private List<PropiedadIdFoto> mValues;
     private final OnListFragmentInteractionListener mListener;
     private Context ctx;
 
-    public MyPropiedadRecyclerViewAdapter(Context contexto,List<PropiedadFoto> items, OnListFragmentInteractionListener listener) {
+    public MyPropiedadIdRecyclerViewAdapter(Context contexto, List<PropiedadIdFoto> items, OnListFragmentInteractionListener listener) {
         ctx = contexto;
         mValues = items;
         mListener = listener;
     }
-    public void setNuevasPropiedades(List<PropiedadFoto> nuevasPropiedades) {
+    public void setNuevasPropiedades(List<PropiedadIdFoto> nuevasPropiedades) {
         this.mValues = nuevasPropiedades;
         notifyDataSetChanged();
     }
@@ -54,16 +54,10 @@ public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropi
                     .into(holder.imgProp);
         }
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+
+
+
+
     }
 
     @Override
@@ -75,7 +69,7 @@ public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropi
         public final View mView;
         public final TextView titulo,precio,habitaciones,direccion;
         public final ImageView favorito,imgProp;
-        public PropiedadFoto mItem;
+        public PropiedadIdFoto mItem;
 
         public ViewHolder(View view) {
             super(view);

@@ -3,10 +3,10 @@ package com.example.inmobiliaria.Model;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import java.util.List;
 import java.util.Objects;
 
-public class Propiedad {
-
+public class PropiedadFoto {
     private String id;
     private String title;
     private String description;
@@ -19,8 +19,11 @@ public class Propiedad {
     private String province;
     private String loc;
     private OwnerId ownerId;
+    private List<String> photos;
 
-    public Propiedad(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, OwnerId ownerId) {
+    public PropiedadFoto() { }
+
+    public PropiedadFoto(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, OwnerId ownerId, List<String> photos) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -33,6 +36,22 @@ public class Propiedad {
         this.province = province;
         this.loc = loc;
         this.ownerId = ownerId;
+        this.photos = photos;
+    }
+
+    public void setPropiedad(Propiedad propiedad){
+        this.id = propiedad.getId();
+        this.title = propiedad.getTitle();
+        this.description = propiedad.getDescription();
+        this.price = propiedad.getPrice();
+        this.rooms = propiedad.getRooms();
+        this.categoryId = propiedad.getCategoryId();
+        this.address = propiedad.getAddress();
+        this.zipcode = propiedad.getZipcode();
+        this.city = propiedad.getCity();
+        this.province = propiedad.getProvince();
+        this.loc = propiedad.getLoc();
+        this.ownerId = propiedad.getOwnerId();
     }
 
     public String getId() {
@@ -131,35 +150,44 @@ public class Propiedad {
         this.ownerId = ownerId;
     }
 
+    public List<String> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Propiedad)) return false;
-        Propiedad propiedad = (Propiedad) o;
-        return price == propiedad.price &&
-                rooms == propiedad.rooms &&
-                Objects.equals(id, propiedad.id) &&
-                Objects.equals(title, propiedad.title) &&
-                Objects.equals(description, propiedad.description) &&
-                Objects.equals(categoryId, propiedad.categoryId) &&
-                Objects.equals(address, propiedad.address) &&
-                Objects.equals(zipcode, propiedad.zipcode) &&
-                Objects.equals(city, propiedad.city) &&
-                Objects.equals(province, propiedad.province) &&
-                Objects.equals(loc, propiedad.loc) &&
-                Objects.equals(ownerId, propiedad.ownerId);
+        if (!(o instanceof PropiedadFoto)) return false;
+        PropiedadFoto that = (PropiedadFoto) o;
+        return price == that.price &&
+                rooms == that.rooms &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(categoryId, that.categoryId) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(zipcode, that.zipcode) &&
+                Objects.equals(city, that.city) &&
+                Objects.equals(province, that.province) &&
+                Objects.equals(loc, that.loc) &&
+                Objects.equals(ownerId, that.ownerId) &&
+                Objects.equals(photos, that.photos);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, price, rooms, categoryId, address, zipcode, city, province, loc, ownerId);
+        return Objects.hash(id, title, description, price, rooms, categoryId, address, zipcode, city, province, loc, ownerId, photos);
     }
 
     @Override
     public String toString() {
-        return "Propiedad{" +
+        return "PropiedadFoto{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -172,6 +200,7 @@ public class Propiedad {
                 ", province='" + province + '\'' +
                 ", loc='" + loc + '\'' +
                 ", ownerId=" + ownerId +
+                ", photos=" + photos +
                 '}';
     }
 }
