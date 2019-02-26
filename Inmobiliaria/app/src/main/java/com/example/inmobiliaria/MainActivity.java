@@ -1,17 +1,21 @@
 package com.example.inmobiliaria;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.inmobiliaria.Adapters.MyPropiedadRecyclerViewAdapter;
 import com.example.inmobiliaria.Fragments.MisPropiedadesFragment;
@@ -27,6 +31,7 @@ import com.example.inmobiliaria.Model.ResponseContainer;
 import com.example.inmobiliaria.Services.PropiedadService;
 import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
 
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,12 +48,15 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_propiedad:
+
                     f = new PropiedadFragment();
                     break;
                 case R.id.navigation_perfil:
+
                     f = null;
                     break;
                 case R.id.navigation_map:
+
                     f = null;
                     break;
 
@@ -87,61 +95,7 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
 
 
 
-
-      /*  private void listarMisPropiedades() {
-
-        PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(MainActivity.this), TipoAutenticacion.JWT);
-        Call<ResponseContainer<Propiedad>> call = service.getListMisPropiedades();
-
-        call.enqueue(new Callback<ResponseContainer<Propiedad>>() {
-
-            @Override
-            public void onResponse(Call<ResponseContainer<Propiedad>> call, Response<ResponseContainer<Propiedad>> response) {
-                if (response.code() != 200) {
-                    Toast.makeText(MainActivity.this, "Error en petición", Toast.LENGTH_SHORT).show();
-                } else {
-                    PropiedadViewModel mViewModel = ViewModelProviders.of((FragmentActivity) MainActivity.this).get(PropiedadViewModel.class);
-                    mViewModel.selectPropiedadList(response.body().getRows());
-                }
-            }
-
-                @Override
-                public void onFailure (Call < ResponseContainer < Propiedad >> call, Throwable t){
-                    Log.e("NetworkFailure", t.getMessage());
-                    Toast.makeText(MainActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-                }
-
-        });
-    }*/
-
-  /*  private void listarFavoritos() {
-
-        PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(MainActivity.this), TipoAutenticacion.JWT);
-        Call<ResponseContainer<Propiedad>> call = service.getListPropiedadesFavoritas();
-
-        call.enqueue(new Callback<ResponseContainer<Propiedad>>() {
-
-            @Override
-            public void onResponse(Call<ResponseContainer<Propiedad>> call, Response<ResponseContainer<Propiedad>> response) {
-                if (response.code() != 200) {
-                    Toast.makeText(MainActivity.this, "Error en petición", Toast.LENGTH_SHORT).show();
-                } else {
-                    PropiedadViewModel mViewModel = ViewModelProviders.of((FragmentActivity) MainActivity.this).get(PropiedadViewModel.class);
-                    mViewModel.selectPropiedadList(response.body().getRows());
-                }
-            }
-
-            @Override
-            public void onFailure (Call < ResponseContainer < Propiedad >> call, Throwable t){
-                Log.e("NetworkFailure", t.getMessage());
-                Toast.makeText(MainActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-    }*/
-
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
@@ -149,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UtilToken.setToken(MainActivity.this,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTE4MzI4N30.QahrrglNtqZ2Rcb5f1lrXjBchj_HKVjWCiqCDo6MVTg");
         setContentView(R.layout.activity_main);
+
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -158,7 +112,55 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
                 .commit();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
+        final Menu menu = navigation.getMenu();
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        ocultarOpcionesNavigationNoLog(menu);
+
+        if(UtilToken.getToken(MainActivity.this).isEmpty())
+            getSupportActionBar().hide();
+    }
+    public void onBackPressed() {
+
+        if (!(UtilToken.getToken(MainActivity.this).isEmpty())) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+            builder.setMessage(R.string.dialog_message)
+                    .setTitle(R.string.dialog_title);
+
+
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    UtilUser.clearSharedPreferences(MainActivity.this);
+                    UtilToken.setToken(MainActivity.this, "");
+                    startActivity(new Intent(MainActivity.this, SessionActivity.class));
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }else
+
+        startActivity(new Intent(MainActivity.this, SessionActivity.class));
+
+    }
+
+
+    public void ocultarOpcionesNavigationNoLog(Menu menu){
+        if(UtilToken.getToken(MainActivity.this).isEmpty()) {
+            MenuItem item = menu.findItem(R.id.navigation_perfil);
+            item.setVisible(false);
+        }
     }
 
 

@@ -2,6 +2,7 @@ package com.example.inmobiliaria.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.example.inmobiliaria.Generator.ServiceGenerator;
 import com.example.inmobiliaria.Generator.UtilToken;
 import com.example.inmobiliaria.Generator.UtilUser;
+import com.example.inmobiliaria.MainActivity;
 import com.example.inmobiliaria.Model.LoginResponse;
 import com.example.inmobiliaria.R;
 import com.example.inmobiliaria.Services.AuthService;
@@ -104,7 +106,7 @@ public class LoginFragment extends Fragment {
                     UtilToken.setToken(getActivity(), response.body().getToken());
                     UtilUser.setUserInfo(getActivity(), response.body().getUser());
 
-                   // startActivity(new Intent(getActivity(), MainActivity.class));
+                    startActivity(new Intent(getActivity(), MainActivity.class));
                 }
             }
 
@@ -126,7 +128,7 @@ public class LoginFragment extends Fragment {
     }
 
     private Boolean validarCampos(EditText email, EditText pass){
-      return (email.getText().toString().isEmpty() && pass.getText().toString().isEmpty());
+      return (!(email.getText().toString().isEmpty() || pass.getText().toString().isEmpty()));
 
     }
 

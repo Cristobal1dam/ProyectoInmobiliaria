@@ -1,5 +1,6 @@
 package com.example.inmobiliaria.Services;
 
+import com.example.inmobiliaria.Model.FavResponse;
 import com.example.inmobiliaria.Model.Propiedad;
 import com.example.inmobiliaria.Model.PropiedadFoto;
 import com.example.inmobiliaria.Model.PropiedadId;
@@ -8,6 +9,7 @@ import com.example.inmobiliaria.Model.ResponseContainer;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface PropiedadService {
@@ -20,5 +22,8 @@ public interface PropiedadService {
 
     @GET("properties/fav")
     Call<ResponseContainer<PropiedadIdFoto>> getListPropiedadesFavoritas();
+
+    @POST("/properties/fav/{id}")
+    Call<FavResponse> addFav(@Path("id") String id);
 
 }

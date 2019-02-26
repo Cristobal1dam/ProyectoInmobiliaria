@@ -17,4 +17,8 @@
     <string name="Registro">Registro</string>
     <string name="ContraseñaRepeat">Repita su contraseña</string>
     <string name="Nombre">Nombre</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">Aceptar</string>
+    <string name="dialog_title">Cerrar sesión</string>
+    <string name="dialog_message">¿Estás seguro que quieres cerrar sesión?</string>
 </resources>

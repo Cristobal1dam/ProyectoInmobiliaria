@@ -2,6 +2,7 @@ package com.example.inmobiliaria.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropi
                     .load(holder.mItem.getPhotos().get(0))
                     .into(holder.imgProp);
         }
+        holder.imgProp.setOnClickListener(GestureDetector.OnDoubleTapListener.);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

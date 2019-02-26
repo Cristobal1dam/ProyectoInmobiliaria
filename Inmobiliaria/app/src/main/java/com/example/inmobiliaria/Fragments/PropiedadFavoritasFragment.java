@@ -80,7 +80,7 @@ public class PropiedadFavoritasFragment extends Fragment {
 
 
             propiedadListFoto = new ArrayList<>();
-            UtilToken.setToken(ctx,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTExMTA4OH0.xGJdOvVfT-1587vCTwPZaobIs-qjNHoXZfdf7QrzMI0");
+        //    UtilToken.setToken(ctx,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTExMTA4OH0.xGJdOvVfT-1587vCTwPZaobIs-qjNHoXZfdf7QrzMI0");
             PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(ctx), TipoAutenticacion.JWT);
             Call<ResponseContainer<PropiedadIdFoto>> call = service.getListPropiedadesFavoritas();
 

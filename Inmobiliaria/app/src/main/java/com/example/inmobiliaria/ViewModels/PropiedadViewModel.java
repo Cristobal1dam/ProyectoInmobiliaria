@@ -22,6 +22,10 @@ public class PropiedadViewModel extends ViewModel {
         listaPropiedades.setValue(propiedades);
     }
 
+    public void addFavoritos(String id){
+
+    }
+
     public MutableLiveData<String> getSelectedIdProyec() {
         return idPropiedad;
     }
