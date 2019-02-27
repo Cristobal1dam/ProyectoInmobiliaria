@@ -8,6 +8,7 @@ import com.example.inmobiliaria.Model.PropiedadIdFoto;
 import com.example.inmobiliaria.Model.ResponseContainer;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -17,6 +18,9 @@ public interface PropiedadService {
     @GET("/Properties")
     Call<ResponseContainer<PropiedadFoto>> getListPropiedades();
 
+    @GET("/Properties/auth")
+    Call<ResponseContainer<PropiedadFoto>> getListPropiedadesLog();
+
     @GET("properties/mine")
     Call<ResponseContainer<PropiedadIdFoto>> getListMisPropiedades();
 
@@ -25,5 +29,8 @@ public interface PropiedadService {
 
     @POST("/properties/fav/{id}")
     Call<FavResponse> addFav(@Path("id") String id);
+
+    @DELETE("/properties/fav/{id}")
+    Call<FavResponse> deleteFav(@Path("id") String id);
 
 }

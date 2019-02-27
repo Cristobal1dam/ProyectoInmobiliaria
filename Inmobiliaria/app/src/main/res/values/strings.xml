@@ -21,4 +21,12 @@
     <string name="ok">Aceptar</string>
     <string name="dialog_title">Cerrar sesión</string>
     <string name="dialog_message">¿Estás seguro que quieres cerrar sesión?</string>
+    <string name="CambiarPass">Cambiar Contraseña</string>
+    <string name="Logout">Cerrar sesión</string>
+    <string name="NuevaPass">Nueva contraseña</string>
+    <string name="NombrePerfil">Nombre:</string>
+    <string name="EmailPerfil">Email:</string>
+    <string name="RepetirPass">Repita su contraseña</string>
+    <string name="Cambiar">Cambiar</string>
+    <string name="Titulo">Título</string>
 </resources>

@@ -20,10 +20,11 @@ public class PropiedadFoto {
     private String loc;
     private OwnerId ownerId;
     private List<String> photos;
+    private boolean isFav;
 
     public PropiedadFoto() { }
 
-    public PropiedadFoto(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, OwnerId ownerId, List<String> photos) {
+    public PropiedadFoto(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, OwnerId ownerId, List<String> photos, boolean isFav) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -37,7 +38,9 @@ public class PropiedadFoto {
         this.loc = loc;
         this.ownerId = ownerId;
         this.photos = photos;
+        this.isFav = isFav;
     }
+
 
     public void setPropiedad(Propiedad propiedad){
         this.id = propiedad.getId();
@@ -158,35 +161,45 @@ public class PropiedadFoto {
         this.photos = photos;
     }
 
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PropiedadFoto)) return false;
         PropiedadFoto that = (PropiedadFoto) o;
-        return price == that.price &&
-                rooms == that.rooms &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(categoryId, that.categoryId) &&
-                Objects.equals(address, that.address) &&
-                Objects.equals(zipcode, that.zipcode) &&
-                Objects.equals(city, that.city) &&
-                Objects.equals(province, that.province) &&
-                Objects.equals(loc, that.loc) &&
-                Objects.equals(ownerId, that.ownerId) &&
-                Objects.equals(photos, that.photos);
+        return getPrice() == that.getPrice() &&
+                getRooms() == that.getRooms() &&
+                isFav() == that.isFav() &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getTitle(), that.getTitle()) &&
+                Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getCategoryId(), that.getCategoryId()) &&
+                Objects.equals(getAddress(), that.getAddress()) &&
+                Objects.equals(getZipcode(), that.getZipcode()) &&
+                Objects.equals(getCity(), that.getCity()) &&
+                Objects.equals(getProvince(), that.getProvince()) &&
+                Objects.equals(getLoc(), that.getLoc()) &&
+                Objects.equals(getOwnerId(), that.getOwnerId()) &&
+                Objects.equals(getPhotos(), that.getPhotos());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, price, rooms, categoryId, address, zipcode, city, province, loc, ownerId, photos);
+        return Objects.hash(getId(), getTitle(), getDescription(), getPrice(), getRooms(), getCategoryId(), getAddress(), getZipcode(), getCity(), getProvince(), getLoc(), getOwnerId(), getPhotos(), isFav());
     }
 
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "PropiedadFoto{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
@@ -201,6 +214,7 @@ public class PropiedadFoto {
                 ", loc='" + loc + '\'' +
                 ", ownerId=" + ownerId +
                 ", photos=" + photos +
+                ", isFav=" + isFav +
                 '}';
     }
 }

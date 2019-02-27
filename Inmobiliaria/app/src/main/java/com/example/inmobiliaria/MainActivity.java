@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,7 @@ import android.widget.Toolbar;
 
 import com.example.inmobiliaria.Adapters.MyPropiedadRecyclerViewAdapter;
 import com.example.inmobiliaria.Fragments.MisPropiedadesFragment;
+import com.example.inmobiliaria.Fragments.PerfilFragment;
 import com.example.inmobiliaria.Fragments.PropiedadFavoritasFragment;
 import com.example.inmobiliaria.Fragments.PropiedadFragment;
 import com.example.inmobiliaria.Generator.ServiceGenerator;
@@ -39,6 +41,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements PropiedadFragment.OnListFragmentInteractionListener, PropiedadFavoritasFragment.OnListFragmentInteractionListener, MisPropiedadesFragment.OnListFragmentInteractionListener{
 
     private Fragment f;
+    private FloatingActionButton fab;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -48,14 +51,18 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_propiedad:
+                    if(!(UtilToken.getToken(MainActivity.this) == null))
+                        getSupportActionBar().show();
 
                     f = new PropiedadFragment();
                     break;
                 case R.id.navigation_perfil:
+                    getSupportActionBar().hide();
 
-                    f = null;
+                    f = new PerfilFragment();
                     break;
                 case R.id.navigation_map:
+                    getSupportActionBar().hide();
 
                     f = null;
                     break;
@@ -101,27 +108,38 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.contenedor, new PropiedadFragment())
+                .commit();
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        final Menu menu = navigation.getMenu();
+        ocultarOpcionesNavigationNoLog(menu);
+        if(UtilToken.getToken(MainActivity.this) == null)
+            getSupportActionBar().hide();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.contenedor, new PropiedadFragment())
-                .commit();
+
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        final Menu menu = navigation.getMenu();
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        ocultarOpcionesNavigationNoLog(menu);
 
-        if(UtilToken.getToken(MainActivity.this).isEmpty())
-            getSupportActionBar().hide();
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+
     }
     public void onBackPressed() {
 
-        if (!(UtilToken.getToken(MainActivity.this).isEmpty())) {
+        if (!(UtilToken.getToken(MainActivity.this) == null)) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -134,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
                 public void onClick(DialogInterface dialog, int id) {
 
                     UtilUser.clearSharedPreferences(MainActivity.this);
-                    UtilToken.setToken(MainActivity.this, "");
+                    UtilToken.setToken(MainActivity.this, null);
                     startActivity(new Intent(MainActivity.this, SessionActivity.class));
                 }
             });
@@ -157,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
 
 
     public void ocultarOpcionesNavigationNoLog(Menu menu){
-        if(UtilToken.getToken(MainActivity.this).isEmpty()) {
+        if(UtilToken.getToken(MainActivity.this) == null) {
             MenuItem item = menu.findItem(R.id.navigation_perfil);
             item.setVisible(false);
         }

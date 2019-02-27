@@ -27,6 +27,7 @@ import com.example.inmobiliaria.Model.ResponseContainer;
 import com.example.inmobiliaria.R;
 import com.example.inmobiliaria.Services.PhotoService;
 import com.example.inmobiliaria.Services.PropiedadService;
+import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class PropiedadFavoritasFragment extends Fragment {
     private PropiedadFragment.OnListFragmentInteractionListener mListener;
     private Context ctx;
     MyPropiedadIdRecyclerViewAdapter adapter;
-    // private PropiedadViewModel mViewModel;
+    //private PropiedadViewModel mViewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

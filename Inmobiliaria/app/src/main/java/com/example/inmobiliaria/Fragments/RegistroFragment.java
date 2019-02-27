@@ -70,17 +70,24 @@ public class RegistroFragment extends Fragment {
             }
         });
 
-        if(validarCampos(etNombre,etEmail,etPassword,etPasswordRep)) {
-            if (validarRepetirPass(etPassword, etPasswordRep)) {
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                doRegistro(etEmail.getText().toString(),
-                        etPassword.getText().toString(),
-                        etNombre.getText().toString());
-            } else
-                Toast.makeText(getActivity(), "Las contraseñas no son iguales", Toast.LENGTH_SHORT).show();
-        }else
-            Toast.makeText(getActivity(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+                if(validarCampos(etNombre,etEmail,etPassword,etPasswordRep)) {
+                    if (validarRepetirPass(etPassword, etPasswordRep)) {
 
+                        doRegistro(etEmail.getText().toString(),
+                                etPassword.getText().toString(),
+                                etNombre.getText().toString());
+                    } else
+                        Toast.makeText(getActivity(), "Las contraseñas no son iguales", Toast.LENGTH_SHORT).show();
+                }else
+                    Toast.makeText(getActivity(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
         return view;
     }
@@ -125,10 +132,10 @@ public class RegistroFragment extends Fragment {
 
     }
     private Boolean validarCampos(EditText nombre,EditText email, EditText pass, EditText passRepeat){
-        return (email.getText().toString().isEmpty() &&
-                pass.getText().toString().isEmpty() &&
-                passRepeat.getText().toString().isEmpty() &&
-                nombre.getText().toString().isEmpty());
+        return (!(email.getText().toString().isEmpty() ||
+                pass.getText().toString().isEmpty() ||
+                passRepeat.getText().toString().isEmpty() ||
+                nombre.getText().toString().isEmpty()));
 
     }
 

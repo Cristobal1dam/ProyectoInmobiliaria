@@ -21,31 +21,35 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageViewPropiedad"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:id="@+id/imageViewIsFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/imageViewFavorito"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_star_orange_24dp" />
+
+            <ImageView
+                android:id="@+id/imageViewPropiedad"
+                android:layout_width="395dp"
+                android:layout_height="142dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewTitulo"
+                tools:layout_editor_absoluteX="8dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
-                android:id="@+id/imageViewFavorito"
+                android:id="@+id/imageViewIsNotFav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewPropiedad"
-                app:srcCompat="@drawable/ic_star_orange_24dp" />
+                app:srcCompat="@drawable/ic_star_border_orange_24dp" />
 
             <TextView
                 android:id="@+id/textViewDireccion"
@@ -80,13 +84,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
                 android:text="TextView"
                 android:textColor="@color/design_default_color_primary_dark"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/textViewPrecio"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewPropiedad" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textViewEuro"
