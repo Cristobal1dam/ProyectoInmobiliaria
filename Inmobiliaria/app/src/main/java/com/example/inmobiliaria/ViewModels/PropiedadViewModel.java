@@ -13,6 +13,18 @@ public class PropiedadViewModel extends ViewModel {
 
     private final MutableLiveData<List<Propiedad>> listaPropiedades = new MutableLiveData<>();
 
+    private Boolean showStar = false;
+
+    private Boolean irMisPropiedades = false;
+
+    public void setirMisPropiedades(Boolean show){ irMisPropiedades = show; }
+
+    public Boolean getirMisPropiedades() {return irMisPropiedades;}
+
+    public void setShowStar(Boolean show){ showStar = show; }
+
+    public Boolean getShowStar() {return showStar;}
+
     public void selectIdProyec(String id) {
         idPropiedad.setValue(id);
     }

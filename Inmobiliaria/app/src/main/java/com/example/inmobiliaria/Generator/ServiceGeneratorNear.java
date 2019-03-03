@@ -12,7 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ServiceGenerator {
+public class ServiceGeneratorNear {
 
     private static final String BASE_URL = "https://realstatev2.herokuapp.com/";
     public static String MASTER_KEY = "hzasFUC4txHXVHHWvjkR2R7UxQ6kzBlw";
@@ -127,7 +127,22 @@ public class ServiceGenerator {
 
             tipoActual = tipo;
 
+            httpClientBuilder.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    {
+                        Request request = chain.request();
+                        String stringurl = request.url().toString();
+                        stringurl = stringurl.replace("%2C", ",");
 
+                        Request newRequest = new Request.Builder()
+                                .url(stringurl)
+                                .build();
+
+                        return chain.proceed(newRequest);
+                    }
+                }
+            });
 
             builder.client(httpClientBuilder.build());
             retrofit = builder.build();

@@ -13,24 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.inmobiliaria.Adapters.MyPropiedadIdRecyclerViewAdapter;
+import com.example.inmobiliaria.Adapters.MyPropiedadRecyclerViewAdapter;
 import com.example.inmobiliaria.Generator.ServiceGenerator;
 import com.example.inmobiliaria.Generator.TipoAutenticacion;
 import com.example.inmobiliaria.Generator.UtilToken;
-import com.example.inmobiliaria.Model.Photo;
 import com.example.inmobiliaria.Model.PropiedadFoto;
-import com.example.inmobiliaria.Model.PropiedadId;
 import com.example.inmobiliaria.Model.PropiedadIdFoto;
 import com.example.inmobiliaria.Model.ResponseContainer;
 import com.example.inmobiliaria.R;
-import com.example.inmobiliaria.Services.PhotoService;
 import com.example.inmobiliaria.Services.PropiedadService;
-import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,10 +36,10 @@ import retrofit2.Response;
 public class MisPropiedadesFragment extends Fragment {
 
     private int mColumnCount = 1;
-    private List<PropiedadIdFoto> propiedadListFoto;
+    private List<PropiedadFoto> propiedadListFoto;
     private PropiedadFragment.OnListFragmentInteractionListener mListener;
     private Context ctx;
-    MyPropiedadIdRecyclerViewAdapter adapter;
+    MyPropiedadRecyclerViewAdapter adapter;
     //private PropiedadViewModel mViewModel;
 
 
@@ -77,14 +72,14 @@ public class MisPropiedadesFragment extends Fragment {
 
 
             propiedadListFoto = new ArrayList<>();
-          //  UtilToken.setToken(ctx,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTExMTA4OH0.xGJdOvVfT-1587vCTwPZaobIs-qjNHoXZfdf7QrzMI0");
-            PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(ctx), TipoAutenticacion.JWT);
-            Call<ResponseContainer<PropiedadIdFoto>> call = service.getListMisPropiedades();
 
-            call.enqueue(new Callback<ResponseContainer<PropiedadIdFoto>>() {
+            PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(ctx), TipoAutenticacion.JWT);
+            Call<ResponseContainer<PropiedadFoto>> call = service.getListMisPropiedades();
+
+            call.enqueue(new Callback<ResponseContainer<PropiedadFoto>>() {
 
                 @Override
-                public void onResponse(Call<ResponseContainer<PropiedadIdFoto>> call, Response<ResponseContainer<PropiedadIdFoto>> response) {
+                public void onResponse(Call<ResponseContainer<PropiedadFoto>> call, Response<ResponseContainer<PropiedadFoto>> response) {
                     if (response.code() != 200) {
                         Toast.makeText(getActivity(), "Error en petición", Toast.LENGTH_SHORT).show();
                     } else {
@@ -94,7 +89,7 @@ public class MisPropiedadesFragment extends Fragment {
 
 
 
-                        adapter = new MyPropiedadIdRecyclerViewAdapter(
+                        adapter = new MyPropiedadRecyclerViewAdapter(
                                 ctx,
                                 propiedadListFoto,
                                 mListener
@@ -104,7 +99,7 @@ public class MisPropiedadesFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<ResponseContainer<PropiedadIdFoto>> call, Throwable t) {
+                public void onFailure(Call<ResponseContainer<PropiedadFoto>> call, Throwable t) {
                     Log.e("NetworkFailure", t.getMessage());
                     Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
                 }

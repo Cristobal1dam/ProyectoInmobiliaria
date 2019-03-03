@@ -1,10 +1,15 @@
 package com.example.inmobiliaria;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,11 +19,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.inmobiliaria.Adapters.MyPropiedadRecyclerViewAdapter;
+import com.example.inmobiliaria.Fragments.MapFragment;
 import com.example.inmobiliaria.Fragments.MisPropiedadesFragment;
 import com.example.inmobiliaria.Fragments.PerfilFragment;
 import com.example.inmobiliaria.Fragments.PropiedadFavoritasFragment;
@@ -38,43 +45,61 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
+
 public class MainActivity extends AppCompatActivity implements PropiedadFragment.OnListFragmentInteractionListener, PropiedadFavoritasFragment.OnListFragmentInteractionListener, MisPropiedadesFragment.OnListFragmentInteractionListener{
 
     private Fragment f;
     private FloatingActionButton fab;
+    private static final int INITIAL_REQUEST=1337;
+    private static final int LOCATION_REQUEST=INITIAL_REQUEST+3;
+    private PropiedadViewModel propiedadViewModel;
+
+
+    private static final String[] LOCATION_PERMS={
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+    private static final String[] COARSE_PERMS={
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         Fragment f = null;
 
+
+        @SuppressLint("RestrictedApi")
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_propiedad:
                     if(!(UtilToken.getToken(MainActivity.this) == null))
                         getSupportActionBar().show();
+                        fab.setVisibility(View.VISIBLE);
+
+                    propiedadViewModel.setShowStar(true);
 
                     f = new PropiedadFragment();
                     break;
                 case R.id.navigation_perfil:
                     getSupportActionBar().hide();
-
+                    fab.setVisibility(View.GONE);
                     f = new PerfilFragment();
                     break;
                 case R.id.navigation_map:
-                    getSupportActionBar().hide();
-
-                    f = null;
+                        getSupportActionBar().hide();
+                        fab.setVisibility(View.GONE);
+                        f = new MapFragment();
                     break;
 
 
             }
+            if(f != null) {
+                cargarFragmento(f);
+            }
+                return true;
 
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.contenedor, f)
-                    .commit();
-            return true;
         }
 
 
@@ -83,20 +108,20 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
     public boolean onOptionsItemSelected(MenuItem item) {
         Fragment f = null;
 
+
         switch (item.getItemId()) {
             case R.id.action_misFavoritos:
+                propiedadViewModel.setShowStar(false);
                 f = new PropiedadFavoritasFragment();
                 break;
             case R.id.action_misPropiedades:
+                propiedadViewModel.setShowStar(false);
                 f = new MisPropiedadesFragment();
                 break;
 
 
         }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.contenedor, f)
-                .commit();
+        cargarFragmento(f);
         return true;
     }
 
@@ -110,10 +135,11 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
     @Override
     protected void onStart() {
         super.onStart();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.contenedor, new PropiedadFragment())
-                .commit();
+
+        propiedadViewModel.setShowStar(true);
+
+        cargarFragmento(new PropiedadFragment());
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         final Menu menu = navigation.getMenu();
         ocultarOpcionesNavigationNoLog(menu);
@@ -122,18 +148,36 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
 
     }
 
+    @SuppressLint("RestrictedApi")
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        propiedadViewModel = ViewModelProviders.of(MainActivity.this)
+                .get(PropiedadViewModel.class);
         setContentView(R.layout.activity_main);
-
+        if(!canAccessLocationCoarse() && !canAccessLocationCoarse()){
+            requestPermissions(LOCATION_PERMS,LOCATION_REQUEST);
+        }
 
 
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
 
+        fab = findViewById(R.id.fabMain);
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this, AddPropiedadActivity.class));
+
+            }
+        });
+        if (UtilToken.getToken(MainActivity.this) == null)
+            fab.setVisibility(View.GONE);
 
 
     }
@@ -174,11 +218,51 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
     }
 
 
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+
+                if (!canAccessLocationCoarse() && !canAccessLocationFine()) {
+                   finish();
+                }
+        Toast.makeText(this, "Esta aplicación necesita permisos de localización", Toast.LENGTH_SHORT).show();
+
+
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean hasPermission(String perm) {
+        return(PackageManager.PERMISSION_GRANTED==checkSelfPermission(perm));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean canAccessLocationFine() {
+        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean canAccessLocationCoarse() {
+        return(hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION));
+    }
+
+
+
+
     public void ocultarOpcionesNavigationNoLog(Menu menu){
         if(UtilToken.getToken(MainActivity.this) == null) {
             MenuItem item = menu.findItem(R.id.navigation_perfil);
             item.setVisible(false);
         }
+    }
+
+    public void cargarFragmento(Fragment fragment){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.contenedor, fragment)
+                .commit();
     }
 
 

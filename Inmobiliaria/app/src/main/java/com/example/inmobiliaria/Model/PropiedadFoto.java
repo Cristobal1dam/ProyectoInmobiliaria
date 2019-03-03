@@ -18,13 +18,14 @@ public class PropiedadFoto {
     private String city;
     private String province;
     private String loc;
+    private int size;
     private OwnerId ownerId;
     private List<String> photos;
     private boolean isFav;
 
     public PropiedadFoto() { }
 
-    public PropiedadFoto(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, OwnerId ownerId, List<String> photos, boolean isFav) {
+    public PropiedadFoto(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, int size, OwnerId ownerId, List<String> photos, boolean isFav) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -36,11 +37,19 @@ public class PropiedadFoto {
         this.city = city;
         this.province = province;
         this.loc = loc;
+        this.size = size;
         this.ownerId = ownerId;
         this.photos = photos;
         this.isFav = isFav;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     public void setPropiedad(Propiedad propiedad){
         this.id = propiedad.getId();

@@ -1,9 +1,11 @@
 package com.example.inmobiliaria.Fragments;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,26 +15,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.inmobiliaria.Adapters.MyPropiedadIdRecyclerViewAdapter;
 import com.example.inmobiliaria.Adapters.MyPropiedadRecyclerViewAdapter;
 import com.example.inmobiliaria.Generator.ServiceGenerator;
 import com.example.inmobiliaria.Generator.TipoAutenticacion;
 import com.example.inmobiliaria.Generator.UtilToken;
-import com.example.inmobiliaria.Model.Photo;
-import com.example.inmobiliaria.Model.Propiedad;
 import com.example.inmobiliaria.Model.PropiedadFoto;
-import com.example.inmobiliaria.Model.PropiedadId;
 import com.example.inmobiliaria.Model.PropiedadIdFoto;
 import com.example.inmobiliaria.Model.ResponseContainer;
 import com.example.inmobiliaria.R;
-import com.example.inmobiliaria.Services.PhotoService;
 import com.example.inmobiliaria.Services.PropiedadService;
 import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,10 +41,10 @@ public class PropiedadFavoritasFragment extends Fragment {
 
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private List<PropiedadIdFoto> propiedadListFoto;
+    private List<PropiedadFoto> propiedadListFoto;
     private PropiedadFragment.OnListFragmentInteractionListener mListener;
     private Context ctx;
-    MyPropiedadIdRecyclerViewAdapter adapter;
+    MyPropiedadRecyclerViewAdapter adapter;
     //private PropiedadViewModel mViewModel;
 
     /**
@@ -83,21 +79,20 @@ public class PropiedadFavoritasFragment extends Fragment {
             propiedadListFoto = new ArrayList<>();
         //    UtilToken.setToken(ctx,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzNkMDhmZDU0ZWE5MDAxNzExZmZkYyIsImlhdCI6MTU1MTExMTA4OH0.xGJdOvVfT-1587vCTwPZaobIs-qjNHoXZfdf7QrzMI0");
             PropiedadService service = ServiceGenerator.createService(PropiedadService.class, UtilToken.getToken(ctx), TipoAutenticacion.JWT);
-            Call<ResponseContainer<PropiedadIdFoto>> call = service.getListPropiedadesFavoritas();
+            Call<ResponseContainer<PropiedadFoto>> call = service.getListPropiedadesFavoritas();
 
-            call.enqueue(new Callback<ResponseContainer<PropiedadIdFoto>>() {
+            call.enqueue(new Callback<ResponseContainer<PropiedadFoto>>() {
 
                 @Override
-                public void onResponse(Call<ResponseContainer<PropiedadIdFoto>> call, Response<ResponseContainer<PropiedadIdFoto>> response) {
+                public void onResponse(Call<ResponseContainer<PropiedadFoto>> call, Response<ResponseContainer<PropiedadFoto>> response) {
                     if (response.code() != 200) {
                         Toast.makeText(getActivity(), "Error en petición", Toast.LENGTH_SHORT).show();
                     } else {
-                        List<PropiedadIdFoto> propiedadList = new ArrayList<>();
+
                         propiedadListFoto = response.body().getRows();
 
 
-
-                        adapter = new MyPropiedadIdRecyclerViewAdapter(
+                        adapter = new MyPropiedadRecyclerViewAdapter(
                                 ctx,
                                 propiedadListFoto,
                                 mListener
@@ -107,7 +102,7 @@ public class PropiedadFavoritasFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<ResponseContainer<PropiedadIdFoto>> call, Throwable t) {
+                public void onFailure(Call<ResponseContainer<PropiedadFoto>> call, Throwable t) {
                     Log.e("NetworkFailure", t.getMessage());
                     Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
                 }
@@ -164,46 +159,5 @@ public class PropiedadFavoritasFragment extends Fragment {
         void onListFragmentInteraction(PropiedadFoto item);
     }
 
-   /* private List<PropiedadIdFoto> getListaFotos (List<PropiedadId> listaProp){
-        PhotoService service = ServiceGenerator.createService(PhotoService.class);
-        final List<PropiedadIdFoto> listaConFoto = new ArrayList<>();
-        for(PropiedadId propiedad : listaProp) {
-            final PropiedadIdFoto propFoto = new PropiedadIdFoto();
-            propFoto.setPropiedad(propiedad);
-            Call<ResponseContainer<Photo>> call = service.getOnePhoto(propiedad.getId());
-            call.enqueue(new Callback<ResponseContainer<Photo>>() {
-
-                @Override
-                public void onResponse(Call<ResponseContainer<Photo>> call, Response<ResponseContainer<Photo>> response) {
-                    if (response.code() != 200) {
-                        Toast.makeText(getActivity(), "Error en petición", Toast.LENGTH_SHORT).show();
-                    } else {
-                        List<Photo> fotos = new ArrayList<>();
-                        fotos =  response.body().getRows();
-
-                        for (Photo foto: fotos){
-                            List<String> fotosLink = new ArrayList<>();
-                            fotosLink = propFoto.getPhotos();
-                            fotosLink.add(foto.getImgurLink());
-                            propFoto.setPhotos(fotosLink);
-                        }
-
-                        listaConFoto.add(propFoto);
-
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseContainer<Photo>> call, Throwable t) {
-                    Log.e("NetworkFailure", t.getMessage());
-                    Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
-                }
-
-
-            });
-        }
-        return listaConFoto;
-    }*/
 
 }

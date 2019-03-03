@@ -7,7 +7,7 @@
 
     <item android:id="@+id/action_misPropiedades"
         android:title="MisPropiedades"
-        android:icon="@drawable/ic_person_black_24dp"
+        android:icon="@drawable/ic_business_black_24dp"
         android:orderInCategory="100"
         app:showAsAction="ifRoom" />
 

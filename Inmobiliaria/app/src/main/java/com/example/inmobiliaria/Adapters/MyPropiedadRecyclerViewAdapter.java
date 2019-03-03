@@ -1,10 +1,11 @@
 package com.example.inmobiliaria.Adapters;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +19,15 @@ import com.example.inmobiliaria.Generator.ServiceGenerator;
 import com.example.inmobiliaria.Generator.TipoAutenticacion;
 import com.example.inmobiliaria.Generator.UtilToken;
 import com.example.inmobiliaria.Model.FavResponse;
-import com.example.inmobiliaria.Model.Propiedad;
 import com.example.inmobiliaria.Model.PropiedadFoto;
+import com.example.inmobiliaria.PropiedadDetalleActivity;
 import com.example.inmobiliaria.R;
 import com.example.inmobiliaria.Services.PropiedadService;
+import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
 
 
 import java.util.List;
 
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,14 +60,20 @@ public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.titulo.setText(holder.mItem.getTitle());
-        holder.direccion.setText(holder.mItem.getAddress());
+        holder.provincia.setText(holder.mItem.getProvince());
+        holder.municipio.setText(holder.mItem.getCity());
         holder.habitaciones.setText(Integer.toString(holder.mItem.getRooms()));
         holder.precio.setText(Integer.toString(( holder.mItem.getPrice())));
+        holder.size.setText(Integer.toString(holder.mItem.getSize()));
         if (holder.mItem.getPhotos() != null) {
             Glide.with(ctx)
                     .load(holder.mItem.getPhotos().get(0))
                     .into(holder.imgProp);
         }
+        PropiedadViewModel propiedadViewModel = ViewModelProviders.of((FragmentActivity) ctx)
+                .get(PropiedadViewModel.class);
+
+        if(propiedadViewModel.getShowStar()){
 
         if(UtilToken.getToken(ctx) != null) {
 
@@ -100,6 +107,20 @@ public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropi
             holder.isNotFav.setVisibility(View.GONE);
             holder.isFav.setVisibility(View.GONE);
         }
+        }else{
+            holder.isFav.setVisibility(View.GONE);
+            holder.isNotFav.setVisibility(View.GONE);
+        }
+
+
+        holder.imgProp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ctx, PropiedadDetalleActivity.class);
+                i.putExtra("id", holder.mItem.getId() );
+                ctx.startActivity(i);
+            }
+        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +141,7 @@ public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView titulo,precio,habitaciones,direccion;
+        public final TextView titulo,precio,habitaciones,provincia,size,municipio;
         public final ImageView isFav,isNotFav,imgProp;
         public PropiedadFoto mItem;
 
@@ -130,7 +151,9 @@ public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropi
             titulo = view.findViewById(R.id.textViewTitulo);
             precio = view.findViewById(R.id.textViewPrecio);
             habitaciones = view.findViewById(R.id.textViewNumeroHab);
-            direccion = view.findViewById(R.id.textViewDireccion);
+            provincia = view.findViewById(R.id.textViewProvinciaList);
+            municipio = view.findViewById(R.id.textViewCiudadList);
+            size = view.findViewById(R.id.textViewSize);
             isFav = view.findViewById(R.id.imageViewIsFav);
             isNotFav = view.findViewById(R.id.imageViewIsNotFav);
             imgProp = view.findViewById(R.id.imageViewPropiedad);

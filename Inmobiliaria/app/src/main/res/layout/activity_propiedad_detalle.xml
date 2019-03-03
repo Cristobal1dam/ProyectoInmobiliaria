@@ -1,7 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PropiedadDetalleActivity"/>
+    tools:context=".PropiedadDetalleActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewDireccionDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textViewDireccionString"
+            app:layout_constraintTop_toTopOf="@+id/textViewDireccionString" />
+
+        <TextView
+            android:id="@+id/textViewPrecioDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textViewPrecioString"
+            app:layout_constraintTop_toTopOf="@+id/textViewPrecioString" />
+
+        <TextView
+            android:id="@+id/textViewCiudadString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/Ciudad"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textViewPropietarioString"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPropietarioString" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="0dp"
+            android:layout_height="330dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/textViewPropietarioString"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textViewPropDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textViewPropietarioString"
+            app:layout_constraintTop_toTopOf="@+id/textViewPropietarioString" />
+
+        <TextView
+            android:id="@+id/textViewSizeDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textViewSizeString"
+            app:layout_constraintTop_toTopOf="@+id/textViewSizeString" />
+
+        <TextView
+            android:id="@+id/textViewEuroDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="@string/Euro"
+            app:layout_constraintStart_toEndOf="@+id/textViewPrecioDetalle"
+            app:layout_constraintTop_toTopOf="@+id/textViewPrecioDetalle" />
+
+        <TextView
+            android:id="@+id/textViewDireccionString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/Direccion"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPrecioString" />
+
+        <TextView
+            android:id="@+id/textViewHabString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Habitacion"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textViewSizeString"
+            app:layout_constraintTop_toTopOf="@+id/textViewCiudadDetalle" />
+
+        <TextView
+            android:id="@+id/textViewPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/relativeLayout2" />
+
+        <TextView
+            android:id="@+id/textViewCiudadDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textViewCiudadString"
+            app:layout_constraintTop_toTopOf="@+id/textViewCiudadString" />
+
+        <TextView
+            android:id="@+id/textViewHabDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textViewHabString"
+            app:layout_constraintTop_toTopOf="@+id/textViewHabString" />
+
+        <TextView
+            android:id="@+id/textViewPrecioString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/Precio"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCiudadString" />
+
+        <ImageView
+            android:id="@+id/imageViewAddPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewMap"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
+
+        <ImageView
+            android:id="@+id/imageViewMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_pin_drop_black_24dp" />
+
+        <TextView
+            android:id="@+id/textViewTituloDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewSizeString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginLeft="60dp"
+            android:text="@string/Size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/textViewPropDetalle"
+            app:layout_constraintTop_toTopOf="@+id/textViewPropDetalle" />
+
+        <TextView
+            android:id="@+id/textViewSizeM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="@string/SizeM"
+            app:layout_constraintStart_toEndOf="@+id/textViewSizeDetalle"
+            app:layout_constraintTop_toTopOf="@+id/textViewSizeDetalle" />
+
+        <TextView
+            android:id="@+id/textViewPropietarioString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="@string/Propietario"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout2" />
+
+        <TextView
+            android:id="@+id/textViewDescripcionString"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/Descripcion"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDireccionString" />
+
+        <TextView
+            android:id="@+id/textViewDescripcionDetalle"
+            android:layout_width="393dp"
+            android:layout_height="124dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionString" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>
