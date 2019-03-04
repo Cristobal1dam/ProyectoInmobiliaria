@@ -39,6 +39,7 @@ import com.example.inmobiliaria.Model.PropiedadFoto;
 import com.example.inmobiliaria.Model.ResponseContainer;
 import com.example.inmobiliaria.Services.PropiedadService;
 import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
+import com.google.android.gms.maps.model.LatLng;
 
 import okhttp3.internal.Util;
 import retrofit2.Call;
@@ -74,10 +75,10 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_propiedad:
-                    if(!(UtilToken.getToken(MainActivity.this) == null))
+                    if(!(UtilToken.getToken(MainActivity.this) == null)) {
                         getSupportActionBar().show();
                         fab.setVisibility(View.VISIBLE);
-
+                    }
                     propiedadViewModel.setShowStar(true);
 
                     f = new PropiedadFragment();
@@ -132,19 +133,34 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
         return true;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onStart() {
         super.onStart();
 
+
         propiedadViewModel.setShowStar(true);
 
-        cargarFragmento(new PropiedadFragment());
+        Bundle extras = getIntent().getExtras();
+       if(extras != null){
+           propiedadViewModel.setIrMapa(true);
+           String[] latlong =  extras.getString("loc").split(",");
+           double latitude = Double.parseDouble(latlong[0].trim());
+           double longitude = Double.parseDouble(latlong[1].trim());
+           propiedadViewModel.setposicionPropiedad(new LatLng(latitude,longitude));
+           cargarFragmento(new MapFragment());
+       } else {
+           propiedadViewModel.setIrMapa(false);
+            cargarFragmento(new PropiedadFragment());
+        }
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         final Menu menu = navigation.getMenu();
         ocultarOpcionesNavigationNoLog(menu);
-        if(UtilToken.getToken(MainActivity.this) == null)
+        if(UtilToken.getToken(MainActivity.this) == null) {
             getSupportActionBar().hide();
+            fab.setVisibility(View.GONE);
+        }
 
     }
 
@@ -153,12 +169,15 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        propiedadViewModel = ViewModelProviders.of(MainActivity.this)
-                .get(PropiedadViewModel.class);
+
         setContentView(R.layout.activity_main);
         if(!canAccessLocationCoarse() && !canAccessLocationCoarse()){
             requestPermissions(LOCATION_PERMS,LOCATION_REQUEST);
         }
+
+
+        propiedadViewModel = ViewModelProviders.of(MainActivity.this)
+                .get(PropiedadViewModel.class);
 
 
 
@@ -176,8 +195,7 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
 
             }
         });
-        if (UtilToken.getToken(MainActivity.this) == null)
-            fab.setVisibility(View.GONE);
+
 
 
     }
@@ -226,9 +244,10 @@ public class MainActivity extends AppCompatActivity implements PropiedadFragment
 
 
                 if (!canAccessLocationCoarse() && !canAccessLocationFine()) {
+                    Toast.makeText(this, "Esta aplicación necesita permisos de localización", Toast.LENGTH_SHORT).show();
                    finish();
                 }
-        Toast.makeText(this, "Esta aplicación necesita permisos de localización", Toast.LENGTH_SHORT).show();
+
 
 
 

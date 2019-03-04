@@ -2,6 +2,7 @@ package com.example.inmobiliaria.Fragments;
 
 
 import android.Manifest;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,11 +27,14 @@ import com.example.inmobiliaria.Generator.ServiceGenerator;
 import com.example.inmobiliaria.Generator.ServiceGeneratorNear;
 import com.example.inmobiliaria.Generator.TipoAutenticacion;
 import com.example.inmobiliaria.Generator.UtilToken;
+import com.example.inmobiliaria.MainActivity;
 import com.example.inmobiliaria.Model.PropiedadFoto;
 import com.example.inmobiliaria.Model.ResponseContainer;
+import com.example.inmobiliaria.Model.ResponseNear;
 import com.example.inmobiliaria.PropiedadDetalleActivity;
 import com.example.inmobiliaria.R;
 import com.example.inmobiliaria.Services.PropiedadService;
+import com.example.inmobiliaria.ViewModels.PropiedadViewModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -64,7 +68,7 @@ public class MapFragment extends Fragment {
     // private Location mLastLocation;
     private LatLng miPosicion, posicionMarker;
     private FusedLocationProviderClient fusedLocationClient;
-    private List<PropiedadFoto> propiedadListFoto;
+    private List<ResponseNear> propiedadListFoto;
 
 
     public MapFragment() {
@@ -82,6 +86,9 @@ public class MapFragment extends Fragment {
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
 
+        final PropiedadViewModel propiedadViewModel  = ViewModelProviders.of(getActivity())
+                .get(PropiedadViewModel.class);
+
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -95,31 +102,36 @@ public class MapFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
+                //mMapView.getMapAsync(this);
 
+                if(!propiedadViewModel.getIrMapa()) {
+                    // For showing a move to my location button
+                    if (checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        googleMap.setMyLocationEnabled(true);
+                    }
 
+                    fusedLocationClient.getLastLocation()
+                            .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
 
-                // For showing a move to my location button
-                if (checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    googleMap.setMyLocationEnabled(true);
-                }
-
-                fusedLocationClient.getLastLocation()
-                        .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                            @Override
-                            public void onSuccess(Location location) {
-
-                                if (location != null) {
-                                    miPosicion = new LatLng(location.getLatitude(), location.getLongitude());
-                                    googleMap.addMarker(new MarkerOptions().position(miPosicion).title("Tu posición"));
-                                    CameraPosition cameraPosition = new CameraPosition.Builder().target(miPosicion).zoom(15).build();
-                                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                                    addMarksNear(miPosicion, googleMap);
+                                    if (location != null) {
+                                        miPosicion = new LatLng(location.getLatitude(), location.getLongitude());
+                                        googleMap.addMarker(new MarkerOptions().position(miPosicion).title("Tu posición"));
+                                        CameraPosition cameraPosition = new CameraPosition.Builder().target(miPosicion).zoom(15).build();
+                                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                                        PropiedadService service = ServiceGeneratorNear.createService(PropiedadService.class);
+                                        addMarksNear(miPosicion);
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-
-
+                }else {
+                    googleMap.addMarker(new MarkerOptions().position(propiedadViewModel.getposicionPropiedad()).title("Posición propiedad"));
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(propiedadViewModel.getposicionPropiedad()).zoom(15).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    propiedadViewModel.setIrMapa(false);
+                }
 
             }
 
@@ -131,36 +143,42 @@ public class MapFragment extends Fragment {
     }
 
 
-    public void addMarksNear(LatLng posicion, final GoogleMap googleMap) {
+
+    public void addMarksNear(LatLng posicion) {
 
         PropiedadService service = ServiceGeneratorNear.createService(PropiedadService.class);
         String posicionActual = Double.toString(posicion.longitude) + "," + Double.toString(posicion.latitude);
-        Call<ResponseContainer<PropiedadFoto>> call = service.getPropiedadesCercanas(posicionActual);
+        Call<ResponseContainer<ResponseNear>> call = service.getPropiedadesCercanas(posicionActual);
 
-        call.enqueue(new Callback<ResponseContainer<PropiedadFoto>>() {
+        call.enqueue(new Callback<ResponseContainer<ResponseNear>>() {
 
             @Override
-            public void onResponse(Call<ResponseContainer<PropiedadFoto>> call, Response<ResponseContainer<PropiedadFoto>> response) {
-                if (response.code() != 200) {
-                    Toast.makeText(getActivity(), "Error en petición", Toast.LENGTH_SHORT).show();
-                } else {
+            public void onResponse(Call<ResponseContainer<ResponseNear>> call, Response<ResponseContainer<ResponseNear>> response) {
 
+
+                if(response.isSuccessful()) {
                     propiedadListFoto = response.body().getRows();
 
-                    for (PropiedadFoto propiedad : propiedadListFoto) {
+                    for (ResponseNear propiedad : propiedadListFoto) {
 
+                        String[] latlong =  propiedad.getLoc().split(",");
+                        double latitude = Double.parseDouble(latlong[0].trim());
+                        double longitude = Double.parseDouble(latlong[1].trim());
                         googleMap.addMarker(new MarkerOptions()
-                                .position(miPosicion)
+                                .position(new LatLng(latitude,longitude))
                                 .title(propiedad.getTitle())
-                                .snippet(propiedad.getDescription()))
-                                .setTag(propiedad.getId());
+                                .snippet(propiedad.getDescription()));
+                        //.setTag(propiedad.getId());
                     }
-
+                } else {
+                    Toast.makeText(getActivity(), "Algo fue mal", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
 
             @Override
-            public void onFailure(Call<ResponseContainer<PropiedadFoto>> call, Throwable t) {
+            public void onFailure(Call<ResponseContainer<ResponseNear>> call, Throwable t) {
                 Log.e("NetworkFailure", t.getMessage());
                 Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }

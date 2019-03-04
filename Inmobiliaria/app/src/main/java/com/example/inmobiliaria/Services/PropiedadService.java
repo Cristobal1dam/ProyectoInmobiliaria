@@ -8,6 +8,7 @@ import com.example.inmobiliaria.Model.PropiedadId;
 import com.example.inmobiliaria.Model.PropiedadIdFoto;
 import com.example.inmobiliaria.Model.ResponseContainer;
 import com.example.inmobiliaria.Model.ResponseContainerNoList;
+import com.example.inmobiliaria.Model.ResponseNear;
 import com.example.inmobiliaria.Model.ResponsePropiedad;
 
 import retrofit2.Call;
@@ -38,7 +39,7 @@ public interface PropiedadService {
     Call<ResponsePropiedad> getPropiedad(@Path("id") String id);
 
     @GET("/Properties")
-    Call<ResponseContainer<PropiedadFoto>> getPropiedadesCercanas(@Query("near") String loc);
+    Call<ResponseContainer<ResponseNear>> getPropiedadesCercanas(@Query("near") String loc);
 
     @POST("/properties/fav/{id}")
     Call<FavResponse> addFav(@Path("id") String id);
@@ -48,5 +49,8 @@ public interface PropiedadService {
 
     @DELETE("/properties/fav/{id}")
     Call<FavResponse> deleteFav(@Path("id") String id);
+
+    @DELETE("/properties/{id}")
+    Call<FavResponse> deleteProperty(@Path("id") String id);
 
 }

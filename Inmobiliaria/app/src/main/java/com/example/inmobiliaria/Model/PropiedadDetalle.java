@@ -6,7 +6,7 @@ import android.support.annotation.RequiresApi;
 import java.util.List;
 import java.util.Objects;
 
-public class PropiedadFoto {
+public class PropiedadDetalle {
     private String id;
     private String title;
     private String description;
@@ -19,13 +19,13 @@ public class PropiedadFoto {
     private String province;
     private String loc;
     private int size;
-   // private OwnerId ownerId;
+    private OwnerId ownerId;
     private List<String> photos;
     private boolean isFav;
 
-    public PropiedadFoto() { }
+    public PropiedadDetalle() { }
 
-    public PropiedadFoto(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, int size, List<String> photos, boolean isFav) {
+    public PropiedadDetalle(String id, String title, String description, int price, int rooms, Category categoryId, String address, String zipcode, String city, String province, String loc, int size,OwnerId ownerId, List<String> photos, boolean isFav) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -38,7 +38,7 @@ public class PropiedadFoto {
         this.province = province;
         this.loc = loc;
         this.size = size;
-        //this.ownerId = ownerId;
+        this.ownerId = ownerId;
         this.photos = photos;
         this.isFav = isFav;
     }
@@ -63,7 +63,7 @@ public class PropiedadFoto {
         this.city = propiedad.getCity();
         this.province = propiedad.getProvince();
         this.loc = propiedad.getLoc();
-        //this.ownerId = propiedad.getOwnerId();
+        this.ownerId = propiedad.getOwnerId();
     }
 
     public String getId() {
@@ -154,13 +154,13 @@ public class PropiedadFoto {
         this.loc = loc;
     }
 
-   /* public OwnerId getOwnerId() {
+   public OwnerId getOwnerId() {
         return ownerId;
     }
 
    public void setOwnerId(OwnerId ownerId) {
         this.ownerId = ownerId;
-    }*/
+    }
 
     public List<String> getPhotos() {
         return photos;
@@ -182,10 +182,11 @@ public class PropiedadFoto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PropiedadFoto)) return false;
-        PropiedadFoto that = (PropiedadFoto) o;
+        if (!(o instanceof PropiedadDetalle)) return false;
+        PropiedadDetalle that = (PropiedadDetalle) o;
         return getPrice() == that.getPrice() &&
                 getRooms() == that.getRooms() &&
+                getSize() == that.getSize() &&
                 isFav() == that.isFav() &&
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getTitle(), that.getTitle()) &&
@@ -196,20 +197,19 @@ public class PropiedadFoto {
                 Objects.equals(getCity(), that.getCity()) &&
                 Objects.equals(getProvince(), that.getProvince()) &&
                 Objects.equals(getLoc(), that.getLoc()) &&
-               // Objects.equals(getOwnerId(), that.getOwnerId()) &&
+                Objects.equals(getOwnerId(), that.getOwnerId()) &&
                 Objects.equals(getPhotos(), that.getPhotos());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getDescription(), getPrice(), getRooms(), getCategoryId(), getAddress(), getZipcode(), getCity(), getProvince(), getLoc(),  getPhotos(), isFav());
+        return Objects.hash(getId(), getTitle(), getDescription(), getPrice(), getRooms(), getCategoryId(), getAddress(), getZipcode(), getCity(), getProvince(), getLoc(), getSize(), getOwnerId(), getPhotos(), isFav());
     }
 
     @Override
-    public String
-    toString() {
-        return "PropiedadFoto{" +
+    public String toString() {
+        return "PropiedadDetalle{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -221,6 +221,8 @@ public class PropiedadFoto {
                 ", city='" + city + '\'' +
                 ", province='" + province + '\'' +
                 ", loc='" + loc + '\'' +
+                ", size=" + size +
+                ", ownerId=" + ownerId +
                 ", photos=" + photos +
                 ", isFav=" + isFav +
                 '}';

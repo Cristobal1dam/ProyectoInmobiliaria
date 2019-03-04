@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class ResponsePropiedad {
     private int count;
-    private PropiedadFoto rows;
+    private PropiedadDetalle rows;
 
-    public ResponsePropiedad(int count, PropiedadFoto rows) {
+    public ResponsePropiedad(int count, PropiedadDetalle rows) {
         this.count = count;
         this.rows = rows;
     }
@@ -22,11 +22,11 @@ public class ResponsePropiedad {
         this.count = count;
     }
 
-    public PropiedadFoto getRows() {
+    public PropiedadDetalle getRows() {
         return rows;
     }
 
-    public void setRows(PropiedadFoto rows) {
+    public void setRows(PropiedadDetalle rows) {
         this.rows = rows;
     }
 

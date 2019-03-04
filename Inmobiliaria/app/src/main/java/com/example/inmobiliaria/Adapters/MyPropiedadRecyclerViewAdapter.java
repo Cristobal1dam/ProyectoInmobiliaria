@@ -3,6 +3,7 @@ package com.example.inmobiliaria.Adapters;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -66,6 +67,7 @@ public class MyPropiedadRecyclerViewAdapter extends RecyclerView.Adapter<MyPropi
         holder.precio.setText(Integer.toString(( holder.mItem.getPrice())));
         holder.size.setText(Integer.toString(holder.mItem.getSize()));
         if (holder.mItem.getPhotos() != null) {
+            holder.imgProp.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Glide.with(ctx)
                     .load(holder.mItem.getPhotos().get(0))
                     .into(holder.imgProp);

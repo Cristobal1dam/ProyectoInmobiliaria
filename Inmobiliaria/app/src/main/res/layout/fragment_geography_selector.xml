@@ -34,7 +34,9 @@
             style="@style/botones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Aceptar" />
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/Aceptar"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     </LinearLayout>
 

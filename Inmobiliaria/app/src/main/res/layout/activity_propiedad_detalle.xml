@@ -10,13 +10,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageViewDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewAddPhoto"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloDetalle"
+            app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+
         <TextView
             android:id="@+id/textViewDireccionDetalle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textViewDireccionString"
             app:layout_constraintTop_toTopOf="@+id/textViewDireccionString" />
 
@@ -26,7 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textViewPrecioString"
             app:layout_constraintTop_toTopOf="@+id/textViewPrecioString" />
 
@@ -48,9 +60,10 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="260dp"
             app:layout_constraintBottom_toTopOf="@+id/textViewPropietarioString"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside">
 
@@ -68,7 +81,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textViewPropietarioString"
             app:layout_constraintTop_toTopOf="@+id/textViewPropietarioString" />
 
@@ -78,7 +90,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textViewSizeString"
             app:layout_constraintTop_toTopOf="@+id/textViewSizeString" />
 
@@ -129,7 +140,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textViewCiudadString"
             app:layout_constraintTop_toTopOf="@+id/textViewCiudadString" />
 
@@ -139,7 +149,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textViewHabString"
             app:layout_constraintTop_toTopOf="@+id/textViewHabString" />
 
@@ -160,26 +169,27 @@
             android:id="@+id/imageViewAddPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:layout_marginBottom="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
             app:layout_constraintEnd_toStartOf="@+id/imageViewMap"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloDetalle"
             app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
 
         <ImageView
             android:id="@+id/imageViewMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloDetalle"
             app:srcCompat="@drawable/ic_pin_drop_black_24dp" />
 
         <TextView
@@ -188,11 +198,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -223,6 +231,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/Propietario"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -248,7 +257,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionString" />

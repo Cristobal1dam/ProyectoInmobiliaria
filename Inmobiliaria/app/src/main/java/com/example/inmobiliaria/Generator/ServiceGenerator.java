@@ -17,6 +17,9 @@ public class ServiceGenerator {
     private static final String BASE_URL = "https://realstatev2.herokuapp.com/";
     public static String MASTER_KEY = "hzasFUC4txHXVHHWvjkR2R7UxQ6kzBlw";
 
+    //hzasFUC4txHXVHHWvjkR2R7UxQ6kzBlw
+    //https://realstatev2.herokuapp.com/
+
     // Solución temporal
     public static String jwtToken = null;
 

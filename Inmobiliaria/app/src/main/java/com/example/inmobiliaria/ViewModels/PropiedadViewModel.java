@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.inmobiliaria.Model.Propiedad;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
@@ -13,13 +14,21 @@ public class PropiedadViewModel extends ViewModel {
 
     private final MutableLiveData<List<Propiedad>> listaPropiedades = new MutableLiveData<>();
 
+    private MutableLiveData<LatLng> posicionPropiedad = new MutableLiveData<>();
+
     private Boolean showStar = false;
 
-    private Boolean irMisPropiedades = false;
+    private MutableLiveData<Boolean> irMapa = new MutableLiveData<>();
 
-    public void setirMisPropiedades(Boolean show){ irMisPropiedades = show; }
 
-    public Boolean getirMisPropiedades() {return irMisPropiedades;}
+
+    public void setIrMapa(Boolean ir){ irMapa.setValue(ir); }
+
+    public Boolean getIrMapa() {return irMapa.getValue();}
+
+    public void setposicionPropiedad(LatLng posicion){ posicionPropiedad.setValue(posicion); }
+
+    public LatLng getposicionPropiedad() {return posicionPropiedad.getValue();}
 
     public void setShowStar(Boolean show){ showStar = show; }
 

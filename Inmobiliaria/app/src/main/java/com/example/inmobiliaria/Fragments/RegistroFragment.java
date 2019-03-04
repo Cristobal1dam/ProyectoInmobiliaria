@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 
 import com.example.inmobiliaria.Generator.ServiceGenerator;
+import com.example.inmobiliaria.Generator.UtilToken;
 import com.example.inmobiliaria.Generator.UtilUser;
 import com.example.inmobiliaria.MainActivity;
 import com.example.inmobiliaria.Model.LoginResponse;
@@ -112,6 +113,7 @@ public class RegistroFragment extends Fragment {
                 if (response.isSuccessful()) {
                     Log.d("Uploaded", "Éxito");
                     Log.d("Uploaded", response.body().toString());
+                    UtilToken.setToken(getActivity(), response.body().getToken());
                     UtilUser.setUserInfo(getActivity(), response.body().getUser());
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 } else {

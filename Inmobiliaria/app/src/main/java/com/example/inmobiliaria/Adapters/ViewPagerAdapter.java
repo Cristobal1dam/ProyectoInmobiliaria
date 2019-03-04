@@ -54,6 +54,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         View view = layoutInflater.inflate(R.layout.custom_layout, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageViewMap);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Glide
                 .with(context)
                 .load(images.get(position))
