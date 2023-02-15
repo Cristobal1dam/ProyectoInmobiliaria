@@ -44,7 +44,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         return view == o;
     }
-
+    /*Pruebas para gitflow */
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
