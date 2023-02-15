@@ -44,6 +44,8 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         return view == o;
     }
+    /*Pruebas para gitflow merge conflict 1*/
+    /*Pruebas para gitflow merge conflict 2*/
     /*Pruebas para gitflow */
     /*Pruebas para gitflow segundo commit*/
     @NonNull
