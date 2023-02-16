@@ -45,6 +45,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         return view == o;
     }
     /*Pruebas pildora*/
+    /*ERROR*/
+    /*Prueba pildora2*/
     /*Pruebas para gitflow merge conflict eclipse*/
     /*Pruebas para gitflow merge conflict 1*/
     /*Pruebas para gitflow merge conflict 2*/
